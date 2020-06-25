@@ -1,0 +1,38 @@
+// Complexity: Log(2) n
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int const n = 4; // array size
+int fen[n], fen2[n];
+
+struct fenwick{
+    void update(int pos, int x){ // change position i content by x
+        while(pos <= n){
+            fen[pos]+= x;
+            pos+= pos&-pos;
+        }
+    }
+    int get(int pos){ // sum from position 1 to position
+        int r = 0;
+        while(pos > 0){
+            r+= fen[pos];
+            pos-= pos&-pos;
+        }
+        return r;
+    }
+    int sum(int l, int r){ // sum from l to r
+        return get(r)- get(l-1);
+    }
+};
+
+
+int main() {
+    ios::sync_with_stdio(0); cin.tie(0);
+    fenwick tree; // create a fenwick tree called tree
+    for(int i = 1; i < 4; i++){
+        tree.update(i, i);
+    }
+    cout << tree.get(3) << endl;
+    cout << tree.sum(2, 3) << endl;
+}
