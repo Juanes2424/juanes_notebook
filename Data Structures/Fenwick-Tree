@@ -4,7 +4,7 @@
 using namespace std;
 
 int const n = 4; // array size
-int fen[n], fen2[n];
+int fen[n];
 
 struct fenwick{
     void update(int pos, int x){ // change position i content by x
