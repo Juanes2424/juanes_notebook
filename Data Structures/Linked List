@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+#define null NULL
+using namespace std;
+
+struct Node{
+    int Val;
+    Node* nxt;
+    Node() {
+        nxt = 0;
+    }
+};
+
+void print(Node* n){ // prints values
+    cout << "{ ";
+    while(n){
+        cout << (*n).Val << " ";
+        n = n->nxt;
+    }
+    cout << "}" << endl;
+}
+
+int get (Node* n, int i) {
+    while (i--) n = n->nxt;
+    return n->Val;
+}
+
+int main(){
+    int w;
+    cin >> w;
+    Node p[w];
+    for(int i = 0; i < w; i++){
+        cin >> p[i].Val;
+        if(i) p[i-1].nxt = &p[i];
+    }
+    Node* n = &p[0];
+    print(n);
+    for(int i = 0; i < w; ++i){ // prints positions and values
+        cout << "elemento " << i << ": " << get(n, i) << endl;
+    }
+}
