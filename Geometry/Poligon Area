@@ -1,1 +1,25 @@
+// Complexity: N
 
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<pair<double, double>> points;
+int n;
+
+double poligon_area(){
+    double sum = 0.0;
+    for(int i = 0; i < n-1; i++){
+        sum += (points[i].first* points[i+1].second) - (points[i].second * points[i+1].first);
+    }
+    return abs(sum/2.0);
+}
+
+int main(){
+	cin >> n;
+	for(int i = 0; i < n; i++){
+        double x, y;
+        cin >> x >> y;
+        points.push_back({x, y});
+	}
+	cout << poligon_area();
+}
