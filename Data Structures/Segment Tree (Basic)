@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int arr [6];
+
+struct Segtree{
+    int from, to, val, mit;
+    Segtree *L; /// apuntador a una posicion en memoria
+    Segtree *R;
+
+    Segtree( int l , int r ){
+        from = l;
+        to = r;
+        if( l == r ){
+            L = nullptr;
+            R = nullptr;
+            val = arr[l];
+            return;
+        }
+        mit = (from+to)/2;
+        L = new Segtree( from , mit );
+        R = new Segtree( mit+1 , to );
+        val = L->val + R->val;
+    }
+
+    void insert ( int pos , int v ){ /// O(log N)
+        if( from == to ){
+            val = v;
+            return;
+        }
+        if( pos <= mit ) L->insert( pos , v );
+        else R->insert( pos , v );
+        val = L->val + R->val;
+    }
+
+    int sum( int l , int r ){ 
+        if( from == l and to == r ) return val;
+        if( r <= mit ) return L->sum( l , r );
+        if( mit < l ) return R->sum( l , r );
+        return L->sum( l , mit ) + R->sum( mit+1 , r );
+    }
+};
+
+int main(){
+    int n = 6;
+
+    arr[0] = 2;
+    arr[1] = -5;
+    arr[2] = 7;
+    arr[3] = -1;
+    arr[4] = 3;
+    arr[5] = 12;
+
+    Segtree *st = new Segtree( 0 , n-1 );
+
+    cout << st->sum(1,3) << endl ; ///-5+7-1 = 
+    st->insert( 2 , 14 );
+    cout << st->sum(1,3) << endl ; ///-5+14-1 = 8
+}
