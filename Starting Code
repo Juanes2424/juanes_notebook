@@ -1,0 +1,12 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define pb push_back
+#define pii pair<int, int>
+#define pll pair<long long, long long>
+#define sc second
+#define fs first
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0); cin.tie(0);
+}
