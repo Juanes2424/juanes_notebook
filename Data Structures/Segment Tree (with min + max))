@@ -1,0 +1,78 @@
+// Complexity: Log(2) n
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int fr, to, sum, minimo = INT_MAX, maximo = INT_MIN;
+    Node *L, *R;
+
+    int get (int i) {
+        if(fr == i && fr == to) return sum;
+        if(L->fr <= i && L->to >= i) return L->get(i);
+        return R->get(i);
+    }
+
+    void change (int i, int c){
+        if(fr == i && to == i){
+            sum = c;
+            minimo = c;
+            maximo = c;
+        } else {
+            if (L->fr <= i && L->to >= i){
+                L->change(i, c);
+                L-> change(i, c);
+            } else {
+                R->change(i, c);
+            }
+        sum = R->sum + L->sum;
+        maximo = max(R->maximo, L->maximo);
+        minimo = min(R->minimo, L->minimo);
+        }
+    }
+
+    int getsum (int i, int j){
+        if(fr == i && to == j) return sum;
+        if(L->fr <= i && L->to >= j) return L->getsum(i, j);
+        if(R->fr <= i && R->to >= i) return R->getsum(i, j);
+        return L->getsum(i, L->to) + R->getsum(R->fr, j);
+    }
+
+    int getmin (int i, int j){
+        if(fr == i && to == j) return minimo;
+        if(L->fr <= i && L->to >= j) return L->getmin(i, j);
+        if(R->fr <= i && R->to >= i) return R->getmin(i, j);
+        return min(L->getmin(i, L->to), R->getmin(R->fr, j));
+    }
+
+    int getmax (int i, int j){
+        if(fr == i && to == j) return maximo;
+        if(L->fr <= i && L->to >= j) return L->getmax(i, j);
+        if(R->fr <= i && R->to >= i) return R->getmax(i, j);
+        return max(L->getmax(i, L->to), R->getmax(R->fr, j));
+    }
+
+    Node(int a, int b){
+        fr = a;
+        to = b;
+        sum = 0;
+        if(a == b){
+            L = R = 0;
+        } else {
+            L = new Node(a, (a + b) / 2);
+            R = new Node((a + b) / 2 + 1, b);
+        }
+    }
+};
+
+int main(){
+    ios::sync_with_stdio(0); cin.tie(0);
+    Node st (0, 11);
+    for(int i = 0; i < 10; i++){
+        st.change(i, i);
+    }
+    cout << st.get(3) << endl;
+    cout << st.getsum(0, 3) << endl;
+    cout << st.getmin(0, 3) << endl;
+    cout << st.getmax(0, 3) << endl;
+}
