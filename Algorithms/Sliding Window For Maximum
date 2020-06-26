@@ -3,22 +3,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void printKMax(int arr[], int n, int k){
-    std::deque<int> Qi(k);
-	for (int i = 0; i < k; ++i) {
-		while ((!Qi.empty()) && arr[i] >= arr[Qi.back()])
-			Qi.pop_back();
-		Qi.push_back(i);
+void mx(int arr[], int n, int k){
+    deque<int> deck(k);
+	for(int i = 0; i < k; i++){
+		while((!deck.empty()) && arr[i] >= arr[deck.back()]){
+			deck.pop_back();
+        }
+		deck.push_back(i);
 	}
-	for (int i; i < n; ++i) {
-		cout << arr[Qi.front()] << " ";
-		while ((!Qi.empty()) && Qi.front() <= i - k)
-			Qi.pop_front(); // Remove from front of queue
-		while ((!Qi.empty()) && arr[i] >= arr[Qi.back()])
-			Qi.pop_back();
-		Qi.push_back(i);
+	for(int i = k; i < n; i++) {
+		cout << arr[deck.front()] << " ";
+		while((!deck.empty()) && deck.front() <= i - k){
+			deck.pop_front();
+        }
+		while((!deck.empty()) && arr[i] >= arr[deck.back()]){
+			deck.pop_back();
+        }
+		deck.push_back(i);
 	}
-	cout << arr[Qi.front()];
+	cout << arr[deck.front()];
 }
 
 int main(){
@@ -28,5 +31,5 @@ int main(){
         cin >> arr[i];
 	}
 	int k; cin >> k;
-	printKMax(arr, n, k);
+	mx(arr, n, k);
 }
