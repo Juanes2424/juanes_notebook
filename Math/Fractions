@@ -1,0 +1,31 @@
+// Complexity: Constant
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int simplify(int x, int y){
+    int gcd = __gcd(x, y);
+    x = x / gcd;
+    y = y / gcd;
+    cout << x << "/" << y << endl;
+}
+
+int add(int a, int b, int c, int d){
+    simplify(a*d+c*b,b*d);
+}
+
+int substract(int a, int b, int c, int d){
+    simplify(a*d-c*b,b*d);
+}
+
+int divide(int a, int b, int c, int d){
+    simplify(a*d, c*b);
+}
+
+int multiply(int a, int b, int c, int d){
+    simplify(a*b, c*d);
+}
+
+int main() {
+    
+}
