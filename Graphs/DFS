@@ -1,1 +1,28 @@
-.
+// Complexity: Number of Nodes
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int const N = 101; // Maximum number of nodes
+vector <bool> seen(N, 0);
+vector <vector<int>> g(N);
+
+void dfs(int u){
+    seen[u] = 1;
+    cout << u << " ";
+    for(auto v: g[u]){
+        if(!seen[v]){
+            dfs(v);
+        }
+    }
+}
+
+int main(){
+    int n, a, b; cin >> n;
+    for(int i = 0; i < n; i++){
+        cin >> a >> b;
+        g[a].push_back(b); // bidirectional graph
+        g[b].push_back(a);
+    }
+    dfs(1); // find a path starting on node 1
+}
