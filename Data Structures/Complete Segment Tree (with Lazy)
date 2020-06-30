@@ -1,3 +1,5 @@
+// Complexity: Log(2) N
+
 #include<bits/stdc++.h>
 using namespace std;
 
