@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct st {
+    int minimo = INT_MAX, maximo = INT_MIN;
+    st* left, *right;
+    int l, r, sum, lazy, lazy_max;
+    st(int a, int b) : l(a), r(b), lazy(0) {
+        maximo = 0;
+        minimo = 0;
+        if(l == r) { // estoy en una hoja
+          sum = 0;
+        } else {
+          int m = (l+r)/2;
+          left = new st(l, m);
+          right = new st(m+1, r);
+          sum = left->sum + right->sum;
+        }
+    }
+    void propagate() {
+        if(lazy != 0) {
+            sum += (r-l+1) * lazy;
+            maximo += lazy;
+            minimo += lazy;
+            if(l != r) {
+                left->lazy += lazy;
+                right->lazy += lazy;
+            }
+            lazy = 0;
+        }
+    }
+    void update(int a, int b, int v) {
+        propagate();
+        if(b < l || r < a) return;
+        if(a <= l && r <= b) {
+            lazy = v;
+            propagate();
+            return;
+        }
+        left->update(a, b, v);
+        right->update(a, b, v);
+        sum = left->sum + right->sum;
+        maximo = max(right->maximo , left->maximo);
+        minimo = min(right->minimo , left->minimo);
+    }
+    int get(int a, int b) {
+        propagate();
+        if(b < l || r < a) return 0;
+        if(a <= l && r <= b) return sum;
+        return left->get(a, b) + right->get(a, b);
+    }
+    int change(int a, int b){
+        update(a, a, -get(a,a) + b);
+    }
+    int pad(int a, int b){
+        update(a, a, b);
+    }
+    int mx(int i, int j){
+        if(l == i && r == j) return maximo;
+        if(left->l <= i && left->r >= j) return left->mx(i, j);
+        if(right->l <= i && right->r >= i) return right->mx(i, j);
+        return max(left->mx(i, left->r), right->mx(right->l, j));
+    }
+    int mn(int i, int j){
+        if(l == i && r == j) return minimo;
+        if(left->l <= i && left->r >= j) return left->mn(i, j);
+        if(right->l <= i && right->r >= i) return right->mn(i, j);
+        return min(left->mn(i, left->r), right->mn(right->l, j));
+    }
+};
+
+int main() {
+  ios::sync_with_stdio(0); cin.tie(0);
+
+  st tree(0, 10); // create tree
+  for(int i = 0; i < 10; i++) {
+    tree.pad(i, i); // fill tree position i will have value i
+  }
+  cout << tree.mx(3,4) << endl;
+  cout << tree.mn(3,4) << endl;
+  tree.change(2, 0); // change value at position i to j
+  cout << tree.get(2, 3) << endl; // get sum from i to j
+  cout << tree.get(2, 5) << endl;
+  cout << tree.get(2, 2) << endl;
+  tree.update(2, 3, 20); // add k to all positions from i to j
+  cout << tree.get(2, 3) << endl;
+  cout << tree.get(2, 5) << endl;
+  cout << tree.get(2, 2) << endl;
+}
