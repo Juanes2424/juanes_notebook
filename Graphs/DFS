@@ -1,4 +1,4 @@
-// Complexity: Number of Nodes
+// Complexity: N + 2M
 
 #include <bits/stdc++.h>
 using namespace std;
