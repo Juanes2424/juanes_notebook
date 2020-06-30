@@ -74,7 +74,7 @@ int main() {
 
   st tree(0, 10); // create tree
   for(int i = 0; i < 10; i++) {
-    tree.pad(i, i); // fill tree position i will have value i
+    tree.pad(i, i); // fill tree position i will have value j
   }
   cout << tree.mx(3,4) << endl;
   cout << tree.mn(3,4) << endl;
