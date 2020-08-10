@@ -1,0 +1,33 @@
+// Complexity: O(1)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+double probability(int rating1, int rating2){
+	return (1.0 * 1.0 / (1 + 1.0 * pow(10, 1.0 * (rating1 - rating2) / 400)));
+}
+
+void EloRating(double Ra, double Rb, int K, bool firstPlayerWon){
+	double Pa = probability(Rb, Ra);
+	double Pb = probability(Ra, Rb);
+
+	if (firstPlayerWon == 1) {
+		Ra = Ra + K * (1 - Pa);
+		Rb = Rb + K * (0 - Pb);
+	} else {
+		Ra = Ra + K * (0 - Pa);
+		Rb = Rb + K * (1 - Pb);
+	}
+
+	cout << "Updated Ratings: " << endl;
+	cout << "Ra = " << Ra << " Rb = " << Rb << endl;
+	cout << "Pa = " << Pa*100 << " Pb = " << Pb*100 << endl;
+}
+
+int main(){
+	double Ra = 1200, Rb = 1200;
+	int K = 30;
+	bool firstPlayerWon = true;
+
+	EloRating(Ra, Rb, K, firstPlayerWon);
+}
