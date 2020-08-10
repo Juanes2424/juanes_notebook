@@ -1,5 +1,5 @@
 # Juanes' Notebook
-Juanes' notebook is a time-saving library which consists of classic and famous algorithms which are commonly used in competitive programming.
+Juanes' notebook is a time-saving library which consists of classic algorithms and data structures which are commonly used in competitive programming.
 This libary is coded entirely in c++, step in and happy coding! 😁
 
 # About The Library
@@ -7,3 +7,7 @@ Currently there are 30 different algorithms. While inputs dont have description 
 
 # Time Complexity
 This library favors time complexity over space, that's why all algorithms have their respective optimizations so they are optimal in time not in space. 
+
+# Documentation
+Even though there is no existing documentation made by me yet, there is tons of explanations out there. 
+Proper documentation will be released soon... here => [Documentation](https://github.com/Juanes2424/juanes_notebook) 
