@@ -1,1 +1,14 @@
-.
+#include <bits/stdc++.h>
+using namespace std;
+
+mt19937 seconds(time(NULL));
+mt19937 nanoSeconds(chrono::steady_clock::now().time_since_epoch().count());
+
+int main(){
+    cout << seconds() % 5 << " " << nanoSeconds() % 5;
+
+    vector<int> arr;
+    arr.push_back(4); arr.push_back(3);
+
+    shuffle(arr.begin(), arr.end(), nanoSeconds);
+}
