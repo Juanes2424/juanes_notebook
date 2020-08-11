@@ -1,1 +1,66 @@
+// Complexity: O(V + E)
 
+#include <bits/stdc++.h>
+using namespace std;
+
+int const N = 101;
+
+vector <bool> seen(N, 0);
+vector <vector<int>> g(N);
+vector <vector<int>> reversed_g(N);
+stack <int> finish_time;
+
+int component[N];
+int numComponents = 0;
+
+vector<int> components[N];
+
+void first_dfs(int u){
+    seen[u] = 1;
+    for(auto v: g[u]){
+        if(!seen[v]){
+            first_dfs(v);
+        }
+    }
+    finish_time.push(u);
+}
+
+void second_dfs(int u){
+    cout << u << " ";
+    component[u] = numComponents;
+    components[numComponents].push_back(u);
+    seen[u] = true;
+    for(auto v: reversed_g[u]){
+        if(!seen[v]){
+            second_dfs(v);
+        }
+    }
+}
+
+int main(){
+	int vertices, nodes; cin >> vertices >> nodes;
+	for(int i = 0; i < vertices; i++){ // nodes should be named from 0 to nodes-1
+        int fr, to; cin >> fr >> to;
+        g[fr].push_back(to);
+        reversed_g[to].push_back(fr);
+	}
+	for(int i = 0; i < nodes; i++){
+        if(!seen[i]){
+            first_dfs(i);
+        }
+	}
+	for(int i = 0; i < nodes; i++){
+        seen[i] = false;
+	}
+	while(!finish_time.empty()){
+        int top = finish_time.top();
+        finish_time.pop();
+        if(!seen[top]){
+            cout << "Component Detected: ";
+            second_dfs(top);
+            cout << endl;
+            numComponents++;
+        }
+	}
+    cout << "Number of components: " << numComponents << endl;
+}
