@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector <int> parent(101);
+vector <int> depth(101);
+
+int findRoot(int x){
+    if(parent[x] == x) return x;
+    return parent[x] = findRoot( parent[x] ); // path compression O(1) Ackerman inverse function f(10^100) = 4
+}
+
+void mergeNode(int a, int b){
+    a = findRoot(a);
+    b = findRoot(b);
+    if(a == b) return;
+    if(depth[a] > depth[b]){
+        parent[b] = a;
+    } else if(depth[a] < depth[b]){
+        parent[a] = b;
+    } else {
+        parent[b] = a;
+        depth[b]++;
+    }
+}
+
+int main(){
+    for(int i = 0; i < 101; i++){
+        parent[i] = i;
+        depth[i] = 0;
+    } // if ith's parent is i, i is root
+    // if two nodes have the same root, they are in the same component
+}
