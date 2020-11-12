@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> values;
+vector<int> weights;
+int capacity, n;
+bool vis[10000][10000];
+int ans[10000][10000];
+
+int knap(int i, int w){
+    if(i == n) return 0;
+    if(vis[i][w]) return ans[i][w];
+    vis[i][w] = true;
+    if(weights[i] + w > capacity) return ans[i][w] = knap(i+1, w);
+    return ans[i][w] = max( knap(i+1, w + weights[i]) + values[i], knap(i+1, w) );
+}
+
+int main(){
+    cin >> n >> capacity;
+    for(int i = 0; i < n; i++){
+        int a; cin >> a;
+        values.push_back(a);
+    }
+    for(int i = 0; i < n; i++){
+        int a; cin >> a;
+        weights.push_back(a);
+    }
+    cout << knap(0, 0);
+}
