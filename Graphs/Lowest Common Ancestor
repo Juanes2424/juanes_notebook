@@ -1,1 +1,19 @@
-.
+int n2anc[N][30];
+int depth[N];
+
+go -> node, dist
+ir al dist ancestro de node
+
+int lca ( int u , int v ) {
+  if ( depth[u] < depth[v] )
+    swap ( u, v );
+  u = go ( u, depth[u]-depth[v] );
+  //poner a u y v en un mismo nivel
+  if ( u == v  ) return u;
+  //MAXPOT log2(n)
+  for ( int l = 30; l >= 0; --l ) {
+    if ( n2anc[u][l] != n2anc[v][l] )
+      u = n2anc[u][l], v = n2anc[v][l];
+  }
+  return n2anc[u][0];
+}
