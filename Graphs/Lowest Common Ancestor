@@ -4,6 +4,14 @@ int depth[N];
 go -> node, dist
 ir al dist ancestro de node
 
+int go ( int node, int dist ) {
+  //Ir al dist-ancestor de node
+  for ( int i = 0; i < 30; ++i )
+    if ( (dist>>i)&1 )
+      node = n2anc[node][i];
+  return node;
+}
+
 int lca ( int u , int v ) {
   if ( depth[u] < depth[v] )
     swap ( u, v );
