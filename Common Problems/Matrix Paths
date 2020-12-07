@@ -1,0 +1,53 @@
+// # of path for going from { 0, 0 } to { N-1, N-1 } touching all squares
+// N = 7; Ans = 111712
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int N = 7;
+int mat[N][N];
+int pathNumber = 1;
+long long call = 1;
+
+int recorrido(int x, int y, int m[][N], int markedSpots){
+    call++;
+    if(x < 0 || x > N-1 || y < 0 || y > N-1) return 0;
+    if(m[x][y] == 1) return 0;
+    if(x == N-1 && y == N-1){
+        if(markedSpots == N*N-1){
+//            cout << "Path #" << pathNumber << " has been found!" << endl;
+//            cout << call << endl;
+            pathNumber++;
+            return 1;
+        }
+        return 0;
+    }
+
+    if(y == 0 && x != 0 && x != N-1 && m[x-1][y] == 0 && m[x+1][y] == 0){ /*upper border*/
+        return 0;
+    } else if(y == N-1 && x != 0 && x != N-1 && m[x-1][y] == 0 && m[x+1][y] == 0){ /*lower border*/
+        return 0;
+    } else if(x == 0 && y != 0 && y != N-1 && m[x][y-1] == 0 && m[x][y+1] == 0){ /* left border*/
+        return 0;
+    } else if(x == N-1 && y != 0 && y != N-1 && m[x][y-1] == 0 && m[x][y+1] == 0){ /*right border*/
+        return 0;
+    }
+
+    int ways = 0;
+
+    m[x][y] = 1;
+
+    ways += recorrido(x+1, y, m, markedSpots + 1);
+    ways += recorrido(x-1, y, m, markedSpots + 1);
+    ways += recorrido(x, y-1, m, markedSpots + 1);
+    ways += recorrido(x, y+1, m, markedSpots + 1);
+
+    m[x][y] = 0;
+
+    return ways;
+}
+
+int main(){
+    mat[0][0] = 1;
+    cout << "--> " << recorrido(0, 1, mat, 0 + 1)*2;
+}
