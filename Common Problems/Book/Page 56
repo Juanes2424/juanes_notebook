@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> vec;
+vector<int> list_A;
+vector<int> list_B;
+vector<int> subset;
+
+int n, k;
+
+void searchh(int k){
+    if(k == n/2){
+        int cou = 0;
+        for(int i = 0; i < subset.size(); i++){
+            cou+= vec[subset[i]];
+        }
+        list_A.push_back(cou);
+        cou = 0;
+        for(int i = 0; i < subset.size(); i++){
+            cou+= vec[subset[i] + n/2];
+        }
+        list_B.push_back(cou);
+        return;
+    } else {
+        searchh(k+1);
+        subset.push_back(k);
+        searchh(k+1);
+        subset.pop_back();
+    }
+}
+
+int main() {
+    cin >> n >> k;
+    for(int i = 0; i < n; i++){
+        int a; cin >> a;
+        vec.push_back(a);
+    }
+
+    if(n % 2 == 1) vec.push_back(0);
+
+    searchh(0);
+
+    sort(list_A.begin(), list_A.end());
+    sort(list_B.begin(), list_B.end());
+
+    int Left = 0;
+
+    for(int i = 0; i < list_A.size(); i++){
+        for(int j = Left; j < list_B.size(); j++){
+            if(list_A[i] + list_B[j] == k){
+                cout << "FOUND: " << list_A[i] << " + " << list_B[j] << endl;
+            } else if(list_A[i] + list_B[j] > k){
+                Left = j-1;
+                break;
+            }
+        }
+    }
+}
