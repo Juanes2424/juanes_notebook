@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int N = 7000;
+int mx[N];
+
+void update(int node, int l, int r, int pos, int val){
+    if(l == pos && r == pos){
+        mx[node] = val;
+        return;
+    }
+    int m = (l+r)/2;
+    if(m >= pos){
+        update(node*2, l, m, pos, val);
+    } else {
+        update(node*2+1, m+1, r, pos, val);
+    }
+    mx[node] = ( mx[node*2] + mx[node*2+1] );
+}
+
+int query(int node, int l, int r, int a, int b){
+    if(l == a && r == b) return mx[node];
+    int m = (l+r)/2;
+    if(m >= b) return query(node*2, l, m, a, b);
+    if(m < a) return query(node*2+1, m+1, r, a, b);
+    return ( query(node*2, l, m, a, m) + query(node*2+1, m+1, r, m+1, b) );
+}
+
+int main(){
+    update(1, 1, 7, 4, 8); // nodo raiz, rango del seg tree 1 a # de nodos, pos, value
+    update(1, 1, 7, 5, 2);
+    cout << query(1, 1, 7, 4, 6); // nodo raiz, rango del seg tree 1 a # de nodos, left range, right range
+}
