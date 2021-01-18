@@ -7,10 +7,10 @@ bool tachado[N+1];
 vector<int> prime;
 
 void primeSieve(){
-    for(int i = 2; i < N; i++){
+    for(long long i = 2; i < N; i++){
         if(tachado[i] == false){
             prime.push_back(i);
-            for(int j = i+i; j < N; j+=i){
+            for(long long j = i+i; j < N; j+=i){
                 tachado[j] = 1;
             }
         }
